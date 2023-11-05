@@ -3,7 +3,7 @@ name: Reusable CI
 on:
   workflow_call:
     inputs:
-      python_version:
+      python-version:
         required: false
         type: string
         default: "3.x"
@@ -46,7 +46,7 @@ on:
 
 jobs:
   test:
-    name: ${{ inputs.os }} py${{ inputs.python_version }} ${{ inputs.qt }}
+    name: ${{ inputs.os }} py${{ inputs.python-version }} ${{ inputs.qt }}
     runs-on: ${{ inputs.os }}
     steps:
       - name: Checkout repository
@@ -54,10 +54,10 @@ jobs:
         with:
           fetch-depth: ${{ inputs.fetch-depth }}
 
-      - name: Set up Python ${{ inputs.python_version }}
+      - name: Set up Python ${{ inputs.python-version }}
         uses: actions/setup-python@v4
         with:
-          python-version: ${{ inputs.python_version }}
+          python-version: ${{ inputs.python-version }}
           cache-dependency-path: ${{ inputs.python-cache-dependency-path }}
           cache: "pip"
 
