@@ -53,11 +53,18 @@ on:
         type: boolean
         default: true
         description: "Fail the build if coverage fails."
+      hatch-build-hooks-enable:
+        required: false
+        type: boolean
+        default: false
+        description: "Enable build hooks for Hatch."
 
 jobs:
   test:
     name: ${{ inputs.os }} py${{ inputs.python-version }} ${{ inputs.qt }}
     runs-on: ${{ inputs.os }}
+    env:
+      HATCH_BUILD_HOOKS_ENABLE: ${{ inputs.hatch-build-hooks-enable }}
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
