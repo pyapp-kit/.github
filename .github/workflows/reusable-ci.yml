@@ -20,6 +20,11 @@ on:
         type: string
         default: ""
         description: "Flags to pass to pip install. Can be used for --editable, --pre, --no-deps, etc."
+      pip-force-installs:
+        required: false
+        type: string
+        default: ""
+        description: "Packages to force install. Will be installed after `pip install .[extras]`"
       qt:
         required: false
         type: string
@@ -65,11 +70,14 @@ jobs:
         if: ${{ inputs.qt != '' }}
         uses: tlambert03/setup-qt-libs@v1
 
-
       - name: Install dependencies
         run: |
           python -m pip install --upgrade pip
           python -m pip install ${{ inputs.pip-install-flags }} .[${{ inputs.extras }}]
+      
+      - name: Force install
+        if: ${{ inputs.pip-force-installs != '' }}
+        run: python -m pip install ${{ inputs.pip-force-installs }} --force-reinstall
 
       - name: Install Qt (${{ inputs.qt }})
         if: ${{ inputs.qt != '' }}
